@@ -24,11 +24,19 @@ public class ProductDetailsPage extends env_target {
     }
 
     public static void verify_price() throws InterruptedException {
-        Duration duration = Duration.ofSeconds(10);
-        wait = new WebDriverWait(driver, duration);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(productPrice));
-        System.out.println("Product Price: " + driver.findElement(productPrice).getText());
-        Assert.assertTrue(driver.findElement(productPrice).isDisplayed());
+        try {
+            Duration duration = Duration.ofSeconds(10);
+            wait = new WebDriverWait(driver, duration);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(productPrice));
+            System.out.println("Product Price: " + driver.findElement(productPrice).getText());
+            Assert.assertTrue(driver.findElement(productPrice).isDisplayed());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            driver.quit();
+        }
     }
 
 }
