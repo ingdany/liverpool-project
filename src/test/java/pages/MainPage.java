@@ -21,10 +21,6 @@ public class MainPage extends env_target {
     static By searchBrandLocator = By.id("searchBrand");
     static By countLocator = By.className("a-plp-results-title");
     static By categoriesMenu = By.className("m-navDesktop__menuList");
-//    static By modalContent = By.id("newMegaMenu-modal");
-//    static By modalContent = By.cssSelector(".modal-dialog.modal-dialog-centered.content-mm.LP");
-//    static By optionMenu = By.xpath("//*[@id=\\\"categories-sidebarMenu\"]");
-//    static By optionMenu = By.xpath("//*[@id=\"categories-sidebarMenu\"]/div/div[6]/li/a");
 
     static WebDriverWait wait;
 
@@ -33,7 +29,7 @@ public class MainPage extends env_target {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get(baseUrl);
-        Duration duration = Duration.ofSeconds(10);
+        Duration duration = Duration.ofSeconds(20);
         wait = new WebDriverWait(driver, duration);
         wait.until(ExpectedConditions.visibilityOfElementLocated(searchBarLocator));
         Assert.assertTrue(driver.findElement(searchBarLocator).isDisplayed());
@@ -114,11 +110,14 @@ public class MainPage extends env_target {
 
     public static void select_menu(String menu) throws InterruptedException {
         try {
-            Thread.sleep(3000);
-            By sidebarMenu = By.xpath("//*[@id='categories-sidebarMenu']/div/div[6]/li/a");
+            By sideBarLocator = By.xpath("//*[@class='m-megamenu__category_menu-item']/*/*[contains(normalize-space(text()),'" + menu + "')]");
+            WebElement sideBarElement = wait.until(ExpectedConditions.elementToBeClickable(sideBarLocator));
+//            System.out.println(categoriesMenu.getAttribute("outerHTML"));
+//            WebElement sideBarOption = wait.until(ExpectedConditions.visibilityOf(
+//                    categoriesMenu.findElement(By.xpath(".//*[contains(normalize-space(text()), '" + menu + "')]"))
+//            ));
             Actions actions = new Actions(driver);
-            WebElement sidebarMenuElement = wait.until(ExpectedConditions.visibilityOfElementLocated(sidebarMenu));
-            actions.moveToElement(sidebarMenuElement).perform();
+            actions.moveToElement(sideBarElement).perform();
         }
         catch (Exception e) {
             e.printStackTrace();
